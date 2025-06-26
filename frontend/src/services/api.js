@@ -1,13 +1,13 @@
-const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+const API_URL = process.env.REACT_APP_API_URL || "https://ai-product-recommend.onrender.com";
 
 export const fetchProducts = async () => {
-  const response = await fetch('http://127.0.0.1:5000/api/products');
+  const response = await fetch('https://ai-product-recommend.onrender.com/api/products');
   return response.json();
 };
 
 export const getRecommendations = async (data) => {
   try {
-    const response = await fetch('http://127.0.0.1:5000/api/recommendations', {
+    const response = await fetch('https://ai-product-recommend.onrender.com/api/recommendations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
