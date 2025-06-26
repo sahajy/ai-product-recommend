@@ -1,15 +1,30 @@
-const API_URL = process.env.REACT_APP_API_URL || "https://ai-product-recommender-f2t3.onrender.com";
+const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
 export const fetchProducts = async () => {
-  const response = await fetch('https://ai-product-recommender-f2t3.onrender.com/api/products');
+  const response = await fetch('http://127.0.0.1:5000/api/products');
   return response.json();
 };
 
 export const getRecommendations = async (data) => {
-  const response = await fetch('https://ai-product-recommender-f2t3.onrender.com/api/recommendations', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-  return response.json();
+  try {
+    const response = await fetch('http://127.0.0.1:5000/api/recommendations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const text = await response.text(); // First get raw text
+    try {
+      return JSON.parse(text); // Then parse manually
+    } catch (parseError) {
+      console.error('Failed to parse JSON:', text);
+      throw new Error('Invalid JSON response');
+    }
+  } catch (error) {
+    console.error('API call failed:', error);
+    throw error;
+  }
 };
